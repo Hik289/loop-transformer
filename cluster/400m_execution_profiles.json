@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "updated_utc": "2026-11-04T17:35:23.946407+00:00",
+  "effective_sequences_per_update": 32,
+  "prediction_tokens_per_update": 16384,
+  "reason": "Measured optimization: 14 unstarted runs plus checkpoint-bound transitions for H200 indices 0 and 2. H100 active indices 1 and 3 retain their original profiles.",
+  "profiles": {
+    "0": {
+      "batch_size": 32,
+      "grad_accum": 1,
+      "gradient_checkpointing": false
+    },
+    "1": {
+      "batch_size": 8,
+      "grad_accum": 4,
+      "gradient_checkpointing": true
+    },
+    "2": {
+      "batch_size": 32,
+      "grad_accum": 1,
+      "gradient_checkpointing": false
+    },
+    "3": {
+      "batch_size": 8,
+      "grad_accum": 4,
+      "gradient_checkpointing": true
+    },
+    "4": {
+      "batch_size": 16,
+      "grad_accum": 2,
+      "gradient_checkpointing": false
+    },
+    "5": {
+      "batch_size": 16,
+      "grad_accum": 2,
+      "gradient_checkpointing": false
+    },
+    "6": {
+      "batch_size": 16,
+      "grad_accum": 2,
+      "gradient_checkpointing": false
+    },
+    "7": {
+      "batch_size": 16,
+      "grad_accum": 2,
+      "gradient_checkpointing": false
+    },
+    "8": {
+      "batch_size": 16,
+      "grad_accum": 2,
+      "gradient_checkpointing": false
+    },
+    "9": {
+      "batch_size": 8,
+      "grad_accum": 4,
+      "gradient_checkpointing": false
+    },
+    "10": {
+      "batch_size": 8,
+      "grad_accum": 4,
+      "gradient_checkpointing": false
+    },
+    "11": {
+      "batch_size": 16,
+      "grad_accum": 2,
+      "gradient_checkpointing": false
+    },
+    "12": {
+      "batch_size": 16,
+      "grad_accum": 2,
+      "gradient_checkpointing": false
+    },
+    "13": {
+      "batch_size": 16,
+      "grad_accum": 2,
+      "gradient_checkpointing": false
+    },
+    "14": {
+      "batch_size": 16,
+      "grad_accum": 2,
+      "gradient_checkpointing": false
+    },
+    "15": {
+      "batch_size": 16,
+      "grad_accum": 2,
+      "gradient_checkpointing": false
+    },
+    "16": {
+      "batch_size": 16,
+      "grad_accum": 2,
+      "gradient_checkpointing": false
+    },
+    "17": {
+      "batch_size": 16,
+      "grad_accum": 2,
+      "gradient_checkpointing": false
+    }
+  }
+}

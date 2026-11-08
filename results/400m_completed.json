@@ -1,0 +1,1500 @@
+{
+  "as_of": "2026-11-07",
+  "runs": [
+    {
+      "name": "m404m_h2_attention_p0.10_s42",
+      "loops": 2,
+      "mode": "attention",
+      "p": 0.1,
+      "seed": 42,
+      "steps": 1220704,
+      "training_tokens_B": 20.0,
+      "final_full_validation": {
+        "loss": 2.9078771080821753,
+        "perplexity": 18.317870402465513,
+        "tokens": 1048576,
+        "chunks": 2048,
+        "diagnostics": {
+          "protocol": {
+            "version": "sparsedrop_eval_v1",
+            "model_mode": "eval",
+            "sample_selection": "first_valid_tokens_in_fixed_validation_order",
+            "max_tokens": 512,
+            "sampled_tokens": 512,
+            "sample_position_sha256": "036f25d3e52783865ddc4915bf4d0cb05839ca214b36af36cfda74b16c16b99c",
+            "activation_location": "post_sublayer_RMSNorm_before_dropout_and_residual_addition",
+            "activation_thresholds": [
+              0.001,
+              0.01,
+              0.1
+            ],
+            "threshold_policy": "fixed_a_priori_from_unit_scale_RMSNorm_baseline; never_refit_per_condition",
+            "baseline_scale_reference": "record p=0 residual_rms alongside fixed thresholds; learned RMSNorm gains may change scale",
+            "topk_fractions": [
+              0.01,
+              0.05,
+              0.1,
+              0.25,
+              0.5,
+              1.0
+            ],
+            "numerical_epsilon": 1e-12,
+            "cosine_reduction": "mean_of_per_token_cosines",
+            "cka_centering": "token_axis; centered_linear_CKA; bounded diagnostic subset"
+          },
+          "status": "ok",
+          "loop_states": [
+            {
+              "loop": 1,
+              "state_rms": 0.5879819567448203,
+              "update_mean_l2": 18.262622882920496,
+              "update_rms": 0.5884921624897264
+            },
+            {
+              "loop": 2,
+              "state_rms": 2.756529775194207,
+              "update_mean_l2": 120.82013786828777,
+              "update_rms": 2.733483249495691
+            }
+          ],
+          "cross_loop": {
+            "status": "ok",
+            "loop_indices": [
+              1,
+              2
+            ],
+            "state_cosine": [
+              [
+                0.9999999999999968,
+                0.22901152694928265
+              ],
+              [
+                0.22901152694928265,
+                1.0000000000000004
+              ]
+            ],
+            "update_cosine": [
+              [
+                0.9999999999999967,
+                0.08572582788210767
+              ],
+              [
+                0.08572582788210767,
+                1.0000000000000002
+              ]
+            ],
+            "linear_cka": [
+              [
+                1.0000000000000044,
+                0.03312838706578863
+              ],
+              [
+                0.03312838706578863,
+                0.9999999999999961
+              ]
+            ],
+            "mean_state_cosine": 0.22901152694928265,
+            "mean_update_cosine": 0.08572582788210767,
+            "mean_linear_cka": 0.03312838706578863
+          },
+          "activations": [
+            {
+              "loop": 1,
+              "layer": 0,
+              "branch": "attention",
+              "tokens": 512,
+              "hidden_size": 2048,
+              "residual_rms": 0.020098803166287607,
+              "threshold_sensitivity": [
+                {
+                  "threshold": 0.001,
+                  "near_zero_ratio": 0.06342220306396484,
+                  "active_ratio": 0.9365777969360352
+                },
+                {
+                  "threshold": 0.01,
+                  "near_zero_ratio": 0.5491466522216797,
+                  "active_ratio": 0.4508533477783203
+                },
+                {
+                  "threshold": 0.1,
+                  "near_zero_ratio": 0.9967250823974609,
+                  "active_ratio": 0.0032749176025390625
+                }
+              ],
+              "top_10pct_energy": 0.4826612547677359,
+              "topk_energy_curve": [
+                {
+                  "fraction": 0.01,
+                  "k": 21,
+                  "energy": 0.12411356820553343
+                },
+                {
+                  "fraction": 0.05,
+                  "k": 103,
+                  "energy": 0.327853623523481
+                },
+                {
+                  "fraction": 0.1,
+                  "k": 205,
+                  "energy": 0.4826612547677359
+                },
+                {
+                  "fraction": 0.25,
+                  "k": 512,
+                  "energy": 0.7480606036609028
+                },
+                {
+                  "fraction": 0.5,
+                  "k": 1024,
+                  "energy": 0.9352647718936913
+                },
+                {
+                  "fraction": 1.0,
+                  "k": 2048,
+                  "energy": 0.9999999999966288
+                }
+              ]
+            },
+            {
+              "loop": 1,
+              "layer": 0,
+              "branch": "ffn",
+              "tokens": 512,
+              "hidden_size": 2048,
+              "residual_rms": 0.069454421021459,
+              "threshold_sensitivity": [
+                {
+                  "threshold": 0.001,
+                  "near_zero_ratio": 0.024643898010253906,
+                  "active_ratio": 0.9753561019897461
+                },
+                {
+                  "threshold": 0.01,
+                  "near_zero_ratio": 0.2381448745727539,
+                  "active_ratio": 0.7618551254272461
+                },
+                {
+                  "threshold": 0.1,
+                  "near_zero_ratio": 0.9184579849243164,
+                  "active_ratio": 0.0815420150756836
+                }
+              ],
+              "top_10pct_energy": 0.7326707464834313,
+              "topk_energy_curve": [
+                {
+                  "fraction": 0.01,
+                  "k": 21,
+                  "energy": 0.48610349646869916
+                },
+                {
+                  "fraction": 0.05,
+                  "k": 103,
+                  "energy": 0.6402443364626376
+                },
+                {
+                  "fraction": 0.1,
+                  "k": 205,
+                  "energy": 0.7326707464834313
+                },
+                {
+                  "fraction": 0.25,
+                  "k": 512,
+                  "energy": 0.8759009213837927
+                },
+                {
+                  "fraction": 0.5,
+                  "k": 1024,
+                  "energy": 0.9692806053583373
+                },
+                {
+                  "fraction": 1.0,
+                  "k": 2048,
+                  "energy": 0.9999999999998737
+                }
+              ]
+            },
+            {
+              "loop": 1,
+              "layer": 1,
+              "branch": "attention",
+              "tokens": 512,
+              "hidden_size": 2048,
+              "residual_rms": 0.029287129908857054,
+              "threshold_sensitivity": [
+                {
+                  "threshold": 0.001,
+                  "near_zero_ratio": 0.03518104553222656,
+                  "active_ratio": 0.9648189544677734
+                },
+                {
+                  "threshold": 0.01,
+                  "near_zero_ratio": 0.3288593292236328,
+                  "active_ratio": 0.6711406707763672
+                },
+                {
+                  "threshold": 0.1,
+                  "near_zero_ratio": 0.993474006652832,
+                  "active_ratio": 0.006525993347167969
+                }
+              ],
+              "top_10pct_energy": 0.510735834310984,
+              "topk_energy_curve": [
+                {
+                  "fraction": 0.01,
+                  "k": 21,
+                  "energy": 0.14952406539772908
+                },
+                {
+                  "fraction": 0.05,
+                  "k": 103,
+                  "energy": 0.3569863119553709
+                },
+                {
+                  "fraction": 0.1,
+                  "k": 205,
+                  "energy": 0.510735834310984
+                },
+                {
+                  "fraction": 0.25,
+                  "k": 512,
+                  "energy": 0.7677855071618327
+                },
+                {
+                  "fraction": 0.5,
+                  "k": 1024,
+                  "energy": 0.9422011723663424
+                },
+                {
+                  "fraction": 1.0,
+                  "k": 2048,
+                  "energy": 0.999999999999232
+                }
+              ]
+            },
+            {
+              "loop": 1,
+              "layer": 1,
+              "branch": "ffn",
+              "tokens": 512,
+              "hidden_size": 2048,
+              "residual_rms": 0.14165916628142303,
+              "threshold_sensitivity": [
+                {
+                  "threshold": 0.001,
+                  "near_zero_ratio": 0.016330718994140625,
+                  "active_ratio": 0.9836692810058594
+                },
+                {
+                  "threshold": 0.01,
+                  "near_zero_ratio": 0.16185665130615234,
+                  "active_ratio": 0.8381433486938477
+                },
+                {
+                  "threshold": 0.1,
+                  "near_zero_ratio": 0.8869743347167969,
+                  "active_ratio": 0.11302566528320312
+                }
+              ],
+              "top_10pct_energy": 0.6268477570127802,
+              "topk_energy_curve": [
+                {
+                  "fraction": 0.01,
+                  "k": 21,
+                  "energy": 0.33978035692813685
+                },
+                {
+                  "fraction": 0.05,
+                  "k": 103,
+                  "energy": 0.5105298210204828
+                },
+                {
+                  "fraction": 0.1,
+                  "k": 205,
+                  "energy": 0.6268477570127802
+                },
+                {
+                  "fraction": 0.25,
+                  "k": 512,
+                  "energy": 0.8207042905555644
+                },
+                {
+                  "fraction": 0.5,
+                  "k": 1024,
+                  "energy": 0.9546294601572711
+                },
+                {
+                  "fraction": 1.0,
+                  "k": 2048,
+                  "energy": 0.9999999999998811
+                }
+              ]
+            },
+            {
+              "loop": 1,
+              "layer": 2,
+              "branch": "attention",
+              "tokens": 512,
+              "hidden_size": 2048,
+              "residual_rms": 0.043902144167712764,
+              "threshold_sensitivity": [
+                {
+                  "threshold": 0.001,
+                  "near_zero_ratio": 0.022253990173339844,
+                  "active_ratio": 0.9777460098266602
+                },
+                {
+                  "threshold": 0.01,
+                  "near_zero_ratio": 0.2185831069946289,
+                  "active_ratio": 0.7814168930053711
+                },
+                {
+                  "threshold": 0.1,
+                  "near_zero_ratio": 0.9687347412109375,
+                  "active_ratio": 0.0312652587890625
+                }
+              ],
+              "top_10pct_energy": 0.5105917868784522,
+              "topk_energy_curve": [
+                {
+                  "fraction": 0.01,
+                  "k": 21,
+                  "energy": 0.14292193203430298
+                },
+                {
+                  "fraction": 0.05,
+                  "k": 103,
+                  "energy": 0.35368526581170695
+                },
+                {
+                  "fraction": 0.1,
+                  "k": 205,
+                  "energy": 0.5105917868784522
+                },
+                {
+                  "fraction": 0.25,
+                  "k": 512,
+                  "energy": 0.7705359299232891
+                },
+                {
+                  "fraction": 0.5,
+                  "k": 1024,
+                  "energy": 0.9437063910154406
+                },
+                {
+                  "fraction": 1.0,
+                  "k": 2048,
+                  "energy": 0.999999999999703
+                }
+              ]
+            },
+            {
+              "loop": 1,
+              "layer": 2,
+              "branch": "ffn",
+              "tokens": 512,
+              "hidden_size": 2048,
+              "residual_rms": 0.22868878613297167,
+              "threshold_sensitivity": [
+                {
+                  "threshold": 0.001,
+                  "near_zero_ratio": 0.013103485107421875,
+                  "active_ratio": 0.9868965148925781
+                },
+                {
+                  "threshold": 0.01,
+                  "near_zero_ratio": 0.12874412536621094,
+                  "active_ratio": 0.8712558746337891
+                },
+                {
+                  "threshold": 0.1,
+                  "near_zero_ratio": 0.8485736846923828,
+                  "active_ratio": 0.1514263153076172
+                }
+              ],
+              "top_10pct_energy": 0.5130893718349039,
+              "topk_energy_curve": [
+                {
+                  "fraction": 0.01,
+                  "k": 21,
+                  "energy": 0.18468412753562083
+                },
+                {
+                  "fraction": 0.05,
+                  "k": 103,
+                  "energy": 0.36892029939498694
+                },
+                {
+                  "fraction": 0.1,
+                  "k": 205,
+                  "energy": 0.5130893718349039
+                },
+                {
+                  "fraction": 0.25,
+                  "k": 512,
+                  "energy": 0.7628185390811554
+                },
+                {
+                  "fraction": 0.5,
+                  "k": 1024,
+                  "energy": 0.9393593031619699
+                },
+                {
+                  "fraction": 1.0,
+                  "k": 2048,
+                  "energy": 0.9999999999998878
+                }
+              ]
+            },
+            {
+              "loop": 1,
+              "layer": 3,
+              "branch": "attention",
+              "tokens": 512,
+              "hidden_size": 2048,
+              "residual_rms": 0.052814250998445555,
+              "threshold_sensitivity": [
+                {
+                  "threshold": 0.001,
+                  "near_zero_ratio": 0.01768207550048828,
+                  "active_ratio": 0.9823179244995117
+                },
+                {
+                  "threshold": 0.01,
+                  "near_zero_ratio": 0.1770486831665039,
+                  "active_ratio": 0.8229513168334961
+                },
+                {
+                  "threshold": 0.1,
+                  "near_zero_ratio": 0.9371404647827148,
+                  "active_ratio": 0.06285953521728516
+                }
+              ],
+              "top_10pct_energy": 0.47569079698898487,
+              "topk_energy_curve": [
+                {
+                  "fraction": 0.01,
+                  "k": 21,
+                  "energy": 0.10943544355619253
+                },
+                {
+                  "fraction": 0.05,
+                  "k": 103,
+                  "energy": 0.3155381741161221
+                },
+                {
+                  "fraction": 0.1,
+                  "k": 205,
+                  "energy": 0.47569079698898487
+                },
+                {
+                  "fraction": 0.25,
+                  "k": 512,
+                  "energy": 0.7489007552349037
+                },
+                {
+                  "fraction": 0.5,
+                  "k": 1024,
+                  "energy": 0.9369863198885138
+                },
+                {
+                  "fraction": 1.0,
+                  "k": 2048,
+                  "energy": 0.9999999999997774
+                }
+              ]
+            },
+            {
+              "loop": 1,
+              "layer": 3,
+              "branch": "ffn",
+              "tokens": 512,
+              "hidden_size": 2048,
+              "residual_rms": 0.15094198283304658,
+              "threshold_sensitivity": [
+                {
+                  "threshold": 0.001,
+                  "near_zero_ratio": 0.009055137634277344,
+                  "active_ratio": 0.9909448623657227
+                },
+                {
+                  "threshold": 0.01,
+                  "near_zero_ratio": 0.09085273742675781,
+                  "active_ratio": 0.9091472625732422
+                },
+                {
+                  "threshold": 0.1,
+                  "near_zero_ratio": 0.722102165222168,
+                  "active_ratio": 0.27789783477783203
+                }
+              ],
+              "top_10pct_energy": 0.4946746226387589,
+              "topk_energy_curve": [
+                {
+                  "fraction": 0.01,
+                  "k": 21,
+                  "energy": 0.1552379220604301
+                },
+                {
+                  "fraction": 0.05,
+                  "k": 103,
+                  "energy": 0.3454511187992988
+                },
+                {
+                  "fraction": 0.1,
+                  "k": 205,
+                  "energy": 0.4946746226387589
+                },
+                {
+                  "fraction": 0.25,
+                  "k": 512,
+                  "energy": 0.7538659151176414
+                },
+                {
+                  "fraction": 0.5,
+                  "k": 1024,
+                  "energy": 0.9369772755704087
+                },
+                {
+                  "fraction": 1.0,
+                  "k": 2048,
+                  "energy": 0.9999999999999438
+                }
+              ]
+            },
+            {
+              "loop": 1,
+              "layer": 4,
+              "branch": "attention",
+              "tokens": 512,
+              "hidden_size": 2048,
+              "residual_rms": 0.07663064269483409,
+              "threshold_sensitivity": [
+                {
+                  "threshold": 0.001,
+                  "near_zero_ratio": 0.01169586181640625,
+                  "active_ratio": 0.9883041381835938
+                },
+                {
+                  "threshold": 0.01,
+                  "near_zero_ratio": 0.11808204650878906,
+                  "active_ratio": 0.8819179534912109
+                },
+                {
+                  "threshold": 0.1,
+                  "near_zero_ratio": 0.8243942260742188,
+                  "active_ratio": 0.17560577392578125
+                }
+              ],
+              "top_10pct_energy": 0.4558481352540088,
+              "topk_energy_curve": [
+                {
+                  "fraction": 0.01,
+                  "k": 21,
+                  "energy": 0.0957426963776705
+                },
+                {
+                  "fraction": 0.05,
+                  "k": 103,
+                  "energy": 0.295378494101572
+                },
+                {
+                  "fraction": 0.1,
+                  "k": 205,
+                  "energy": 0.4558481352540088
+                },
+                {
+                  "fraction": 0.25,
+                  "k": 512,
+                  "energy": 0.7359815206159349
+                },
+                {
+                  "fraction": 0.5,
+                  "k": 1024,
+                  "energy": 0.9329932868336377
+                },
+                {
+                  "fraction": 1.0,
+                  "k": 2048,
+                  "energy": 0.9999999999998955
+                }
+              ]
+            },
+            {
+              "loop": 1,
+              "layer": 4,
+              "branch": "ffn",
+              "tokens": 512,
+              "hidden_size": 2048,
+              "residual_rms": 0.13565201865814597,
+              "threshold_sensitivity": [
+                {
+                  "threshold": 0.001,
+                  "near_zero_ratio": 0.007500648498535156,
+                  "active_ratio": 0.9924993515014648
+                },
+                {
+                  "threshold": 0.01,
+                  "near_zero_ratio": 0.07468223571777344,
+                  "active_ratio": 0.9253177642822266
+                },
+                {
+                  "threshold": 0.1,
+                  "near_zero_ratio": 0.6357088088989258,
+                  "active_ratio": 0.3642911911010742
+                }
+              ],
+              "top_10pct_energy": 0.5961317990301559,
+              "topk_energy_curve": [
+                {
+                  "fraction": 0.01,
+                  "k": 21,
+                  "energy": 0.3152844936358329
+                },
+                {
+                  "fraction": 0.05,
+                  "k": 103,
+                  "energy": 0.4756543163976521
+                },
+                {
+                  "fraction": 0.1,
+                  "k": 205,
+                  "energy": 0.5961317990301559
+                },
+                {
+                  "fraction": 0.25,
+                  "k": 512,
+                  "energy": 0.8037840189945595
+                },
+                {
+                  "fraction": 0.5,
+                  "k": 1024,
+                  "energy": 0.9499073043687418
+                },
+                {
+                  "fraction": 1.0,
+                  "k": 2048,
+                  "energy": 0.9999999999999745
+                }
+              ]
+            },
+            {
+              "loop": 1,
+              "layer": 5,
+              "branch": "attention",
+              "tokens": 512,
+              "hidden_size": 2048,
+              "residual_rms": 0.0721822661265924,
+              "threshold_sensitivity": [
+                {
+                  "threshold": 0.001,
+                  "near_zero_ratio": 0.01323699951171875,
+                  "active_ratio": 0.9867630004882812
+                },
+                {
+                  "threshold": 0.01,
+                  "near_zero_ratio": 0.12314033508300781,
+                  "active_ratio": 0.8768596649169922
+                },
+                {
+                  "threshold": 0.1,
+                  "near_zero_ratio": 0.8503932952880859,
+                  "active_ratio": 0.14960670471191406
+                }
+              ],
+              "top_10pct_energy": 0.4755261615296641,
+              "topk_energy_curve": [
+                {
+                  "fraction": 0.01,
+                  "k": 21,
+                  "energy": 0.12035107530052287
+                },
+                {
+                  "fraction": 0.05,
+                  "k": 103,
+                  "energy": 0.31937883216143753
+                },
+                {
+                  "fraction": 0.1,
+                  "k": 205,
+                  "energy": 0.4755261615296641
+                },
+                {
+                  "fraction": 0.25,
+                  "k": 512,
+                  "energy": 0.7456757118869383
+                },
+                {
+                  "fraction": 0.5,
+                  "k": 1024,
+                  "energy": 0.935537294054337
+                },
+                {
+                  "fraction": 1.0,
+                  "k": 2048,
+                  "energy": 0.9999999999998956
+                }
+              ]
+            },
+            {
+              "loop": 1,
+              "layer": 5,
+              "branch": "ffn",
+              "tokens": 512,
+              "hidden_size": 2048,
+              "residual_rms": 0.2788253141655183,
+              "threshold_sensitivity": [
+                {
+                  "threshold": 0.001,
+                  "near_zero_ratio": 0.008897781372070312,
+                  "active_ratio": 0.9911022186279297
+                },
+                {
+                  "threshold": 0.01,
+                  "near_zero_ratio": 0.08736610412597656,
+                  "active_ratio": 0.9126338958740234
+                },
+                {
+                  "threshold": 0.1,
+                  "near_zero_ratio": 0.7109642028808594,
+                  "active_ratio": 0.2890357971191406
+                }
+              ],
+              "top_10pct_energy": 0.9104222284901743,
+              "topk_energy_curve": [
+                {
+                  "fraction": 0.01,
+                  "k": 21,
+                  "energy": 0.8406988458276802
+                },
+                {
+                  "fraction": 0.05,
+                  "k": 103,
+                  "energy": 0.8829067009601215
+                },
+                {
+                  "fraction": 0.1,
+                  "k": 205,
+                  "energy": 0.9104222284901743
+                },
+                {
+                  "fraction": 0.25,
+                  "k": 512,
+                  "energy": 0.9566864718437176
+                },
+                {
+                  "fraction": 0.5,
+                  "k": 1024,
+                  "energy": 0.9889306280468793
+                },
+                {
+                  "fraction": 1.0,
+                  "k": 2048,
+                  "energy": 0.9999999999999962
+                }
+              ]
+            },
+            {
+              "loop": 2,
+              "layer": 0,
+              "branch": "attention",
+              "tokens": 512,
+              "hidden_size": 2048,
+              "residual_rms": 0.02570753984124443,
+              "threshold_sensitivity": [
+                {
+                  "threshold": 0.001,
+                  "near_zero_ratio": 0.03781890869140625,
+                  "active_ratio": 0.9621810913085938
+                },
+                {
+                  "threshold": 0.01,
+                  "near_zero_ratio": 0.3601951599121094,
+                  "active_ratio": 0.6398048400878906
+                },
+                {
+                  "threshold": 0.1,
+                  "near_zero_ratio": 0.9961996078491211,
+                  "active_ratio": 0.0038003921508789062
+                }
+              ],
+              "top_10pct_energy": 0.5586242262070157,
+              "topk_energy_curve": [
+                {
+                  "fraction": 0.01,
+                  "k": 21,
+                  "energy": 0.23813546925137694
+                },
+                {
+                  "fraction": 0.05,
+                  "k": 103,
+                  "energy": 0.42296549531821614
+                },
+                {
+                  "fraction": 0.1,
+                  "k": 205,
+                  "energy": 0.5586242262070157
+                },
+                {
+                  "fraction": 0.25,
+                  "k": 512,
+                  "energy": 0.7874426461999873
+                },
+                {
+                  "fraction": 0.5,
+                  "k": 1024,
+                  "energy": 0.9457997885761262
+                },
+                {
+                  "fraction": 1.0,
+                  "k": 2048,
+                  "energy": 0.9999999999991722
+                }
+              ]
+            },
+            {
+              "loop": 2,
+              "layer": 0,
+              "branch": "ffn",
+              "tokens": 512,
+              "hidden_size": 2048,
+              "residual_rms": 0.26478184994136944,
+              "threshold_sensitivity": [
+                {
+                  "threshold": 0.001,
+                  "near_zero_ratio": 0.004512786865234375,
+                  "active_ratio": 0.9954872131347656
+                },
+                {
+                  "threshold": 0.01,
+                  "near_zero_ratio": 0.04498100280761719,
+                  "active_ratio": 0.9550189971923828
+                },
+                {
+                  "threshold": 0.1,
+                  "near_zero_ratio": 0.4096670150756836,
+                  "active_ratio": 0.5903329849243164
+                }
+              ],
+              "top_10pct_energy": 0.5683209166553911,
+              "topk_energy_curve": [
+                {
+                  "fraction": 0.01,
+                  "k": 21,
+                  "energy": 0.2477148093712619
+                },
+                {
+                  "fraction": 0.05,
+                  "k": 103,
+                  "energy": 0.43285345044369083
+                },
+                {
+                  "fraction": 0.1,
+                  "k": 205,
+                  "energy": 0.5683209166553911
+                },
+                {
+                  "fraction": 0.25,
+                  "k": 512,
+                  "energy": 0.7941197991261502
+                },
+                {
+                  "fraction": 0.5,
+                  "k": 1024,
+                  "energy": 0.9482179617496893
+                },
+                {
+                  "fraction": 1.0,
+                  "k": 2048,
+                  "energy": 0.9999999999999933
+                }
+              ]
+            },
+            {
+              "loop": 2,
+              "layer": 1,
+              "branch": "attention",
+              "tokens": 512,
+              "hidden_size": 2048,
+              "residual_rms": 0.09780714864802914,
+              "threshold_sensitivity": [
+                {
+                  "threshold": 0.001,
+                  "near_zero_ratio": 0.010861396789550781,
+                  "active_ratio": 0.9891386032104492
+                },
+                {
+                  "threshold": 0.01,
+                  "near_zero_ratio": 0.09602069854736328,
+                  "active_ratio": 0.9039793014526367
+                },
+                {
+                  "threshold": 0.1,
+                  "near_zero_ratio": 0.7284832000732422,
+                  "active_ratio": 0.2715167999267578
+                }
+              ],
+              "top_10pct_energy": 0.49493051449100245,
+              "topk_energy_curve": [
+                {
+                  "fraction": 0.01,
+                  "k": 21,
+                  "energy": 0.1325966524494674
+                },
+                {
+                  "fraction": 0.05,
+                  "k": 103,
+                  "energy": 0.33880044171359874
+                },
+                {
+                  "fraction": 0.1,
+                  "k": 205,
+                  "energy": 0.49493051449100245
+                },
+                {
+                  "fraction": 0.25,
+                  "k": 512,
+                  "energy": 0.7587446856389675
+                },
+                {
+                  "fraction": 0.5,
+                  "k": 1024,
+                  "energy": 0.9397241598704432
+                },
+                {
+                  "fraction": 1.0,
+                  "k": 2048,
+                  "energy": 0.9999999999999429
+                }
+              ]
+            },
+            {
+              "loop": 2,
+              "layer": 1,
+              "branch": "ffn",
+              "tokens": 512,
+              "hidden_size": 2048,
+              "residual_rms": 0.25758607984121923,
+              "threshold_sensitivity": [
+                {
+                  "threshold": 0.001,
+                  "near_zero_ratio": 0.003918647766113281,
+                  "active_ratio": 0.9960813522338867
+                },
+                {
+                  "threshold": 0.01,
+                  "near_zero_ratio": 0.038802146911621094,
+                  "active_ratio": 0.9611978530883789
+                },
+                {
+                  "threshold": 0.1,
+                  "near_zero_ratio": 0.36801815032958984,
+                  "active_ratio": 0.6319818496704102
+                }
+              ],
+              "top_10pct_energy": 0.576887330396364,
+              "topk_energy_curve": [
+                {
+                  "fraction": 0.01,
+                  "k": 21,
+                  "energy": 0.26275827038271465
+                },
+                {
+                  "fraction": 0.05,
+                  "k": 103,
+                  "energy": 0.44650430613277586
+                },
+                {
+                  "fraction": 0.1,
+                  "k": 205,
+                  "energy": 0.576887330396364
+                },
+                {
+                  "fraction": 0.25,
+                  "k": 512,
+                  "energy": 0.7963331189497691
+                },
+                {
+                  "fraction": 0.5,
+                  "k": 1024,
+                  "energy": 0.9483163148351275
+                },
+                {
+                  "fraction": 1.0,
+                  "k": 2048,
+                  "energy": 0.9999999999999961
+                }
+              ]
+            },
+            {
+              "loop": 2,
+              "layer": 2,
+              "branch": "attention",
+              "tokens": 512,
+              "hidden_size": 2048,
+              "residual_rms": 0.1356796270559581,
+              "threshold_sensitivity": [
+                {
+                  "threshold": 0.001,
+                  "near_zero_ratio": 0.007790565490722656,
+                  "active_ratio": 0.9922094345092773
+                },
+                {
+                  "threshold": 0.01,
+                  "near_zero_ratio": 0.07189655303955078,
+                  "active_ratio": 0.9281034469604492
+                },
+                {
+                  "threshold": 0.1,
+                  "near_zero_ratio": 0.587285041809082,
+                  "active_ratio": 0.41271495819091797
+                }
+              ],
+              "top_10pct_energy": 0.49127257712969463,
+              "topk_energy_curve": [
+                {
+                  "fraction": 0.01,
+                  "k": 21,
+                  "energy": 0.11837962955476453
+                },
+                {
+                  "fraction": 0.05,
+                  "k": 103,
+                  "energy": 0.3304143402292812
+                },
+                {
+                  "fraction": 0.1,
+                  "k": 205,
+                  "energy": 0.49127257712969463
+                },
+                {
+                  "fraction": 0.25,
+                  "k": 512,
+                  "energy": 0.7599232247194339
+                },
+                {
+                  "fraction": 0.5,
+                  "k": 1024,
+                  "energy": 0.9407609844812599
+                },
+                {
+                  "fraction": 1.0,
+                  "k": 2048,
+                  "energy": 0.9999999999999719
+                }
+              ]
+            },
+            {
+              "loop": 2,
+              "layer": 2,
+              "branch": "ffn",
+              "tokens": 512,
+              "hidden_size": 2048,
+              "residual_rms": 0.28265824902672415,
+              "threshold_sensitivity": [
+                {
+                  "threshold": 0.001,
+                  "near_zero_ratio": 0.0035572052001953125,
+                  "active_ratio": 0.9964427947998047
+                },
+                {
+                  "threshold": 0.01,
+                  "near_zero_ratio": 0.03549385070800781,
+                  "active_ratio": 0.9645061492919922
+                },
+                {
+                  "threshold": 0.1,
+                  "near_zero_ratio": 0.33809947967529297,
+                  "active_ratio": 0.661900520324707
+                }
+              ],
+              "top_10pct_energy": 0.518234044934891,
+              "topk_energy_curve": [
+                {
+                  "fraction": 0.01,
+                  "k": 21,
+                  "energy": 0.1934404668520962
+                },
+                {
+                  "fraction": 0.05,
+                  "k": 103,
+                  "energy": 0.3757342330976997
+                },
+                {
+                  "fraction": 0.1,
+                  "k": 205,
+                  "energy": 0.518234044934891
+                },
+                {
+                  "fraction": 0.25,
+                  "k": 512,
+                  "energy": 0.7654454909320657
+                },
+                {
+                  "fraction": 0.5,
+                  "k": 1024,
+                  "energy": 0.9399507115236889
+                },
+                {
+                  "fraction": 1.0,
+                  "k": 2048,
+                  "energy": 0.9999999999999956
+                }
+              ]
+            },
+            {
+              "loop": 2,
+              "layer": 3,
+              "branch": "attention",
+              "tokens": 512,
+              "hidden_size": 2048,
+              "residual_rms": 0.16200190821678734,
+              "threshold_sensitivity": [
+                {
+                  "threshold": 0.001,
+                  "near_zero_ratio": 0.005840301513671875,
+                  "active_ratio": 0.9941596984863281
+                },
+                {
+                  "threshold": 0.01,
+                  "near_zero_ratio": 0.06053733825683594,
+                  "active_ratio": 0.9394626617431641
+                },
+                {
+                  "threshold": 0.1,
+                  "near_zero_ratio": 0.5157041549682617,
+                  "active_ratio": 0.4842958450317383
+                }
+              ],
+              "top_10pct_energy": 0.46663551127202085,
+              "topk_energy_curve": [
+                {
+                  "fraction": 0.01,
+                  "k": 21,
+                  "energy": 0.10175668438138424
+                },
+                {
+                  "fraction": 0.05,
+                  "k": 103,
+                  "energy": 0.306160877327613
+                },
+                {
+                  "fraction": 0.1,
+                  "k": 205,
+                  "energy": 0.46663551127202085
+                },
+                {
+                  "fraction": 0.25,
+                  "k": 512,
+                  "energy": 0.742785903153822
+                },
+                {
+                  "fraction": 0.5,
+                  "k": 1024,
+                  "energy": 0.9351727657184776
+                },
+                {
+                  "fraction": 1.0,
+                  "k": 2048,
+                  "energy": 0.9999999999999742
+                }
+              ]
+            },
+            {
+              "loop": 2,
+              "layer": 3,
+              "branch": "ffn",
+              "tokens": 512,
+              "hidden_size": 2048,
+              "residual_rms": 0.4071453793085564,
+              "threshold_sensitivity": [
+                {
+                  "threshold": 0.001,
+                  "near_zero_ratio": 0.002254486083984375,
+                  "active_ratio": 0.9977455139160156
+                },
+                {
+                  "threshold": 0.01,
+                  "near_zero_ratio": 0.02266216278076172,
+                  "active_ratio": 0.9773378372192383
+                },
+                {
+                  "threshold": 0.1,
+                  "near_zero_ratio": 0.22402000427246094,
+                  "active_ratio": 0.7759799957275391
+                }
+              ],
+              "top_10pct_energy": 0.5165868442361465,
+              "topk_energy_curve": [
+                {
+                  "fraction": 0.01,
+                  "k": 21,
+                  "energy": 0.191008971454455
+                },
+                {
+                  "fraction": 0.05,
+                  "k": 103,
+                  "energy": 0.3739845480803831
+                },
+                {
+                  "fraction": 0.1,
+                  "k": 205,
+                  "energy": 0.5165868442361465
+                },
+                {
+                  "fraction": 0.25,
+                  "k": 512,
+                  "energy": 0.7645779834986028
+                },
+                {
+                  "fraction": 0.5,
+                  "k": 1024,
+                  "energy": 0.9398911443331314
+                },
+                {
+                  "fraction": 1.0,
+                  "k": 2048,
+                  "energy": 0.9999999999999998
+                }
+              ]
+            },
+            {
+              "loop": 2,
+              "layer": 4,
+              "branch": "attention",
+              "tokens": 512,
+              "hidden_size": 2048,
+              "residual_rms": 0.2788350824734053,
+              "threshold_sensitivity": [
+                {
+                  "threshold": 0.001,
+                  "near_zero_ratio": 0.0035696029663085938,
+                  "active_ratio": 0.9964303970336914
+                },
+                {
+                  "threshold": 0.01,
+                  "near_zero_ratio": 0.03644275665283203,
+                  "active_ratio": 0.963557243347168
+                },
+                {
+                  "threshold": 0.1,
+                  "near_zero_ratio": 0.3373250961303711,
+                  "active_ratio": 0.6626749038696289
+                }
+              ],
+              "top_10pct_energy": 0.454034749353044,
+              "topk_energy_curve": [
+                {
+                  "fraction": 0.01,
+                  "k": 21,
+                  "energy": 0.09244058756122643
+                },
+                {
+                  "fraction": 0.05,
+                  "k": 103,
+                  "energy": 0.29258894992423023
+                },
+                {
+                  "fraction": 0.1,
+                  "k": 205,
+                  "energy": 0.454034749353044
+                },
+                {
+                  "fraction": 0.25,
+                  "k": 512,
+                  "energy": 0.7353354069521362
+                },
+                {
+                  "fraction": 0.5,
+                  "k": 1024,
+                  "energy": 0.9328848914054737
+                },
+                {
+                  "fraction": 1.0,
+                  "k": 2048,
+                  "energy": 0.9999999999999898
+                }
+              ]
+            },
+            {
+              "loop": 2,
+              "layer": 4,
+              "branch": "ffn",
+              "tokens": 512,
+              "hidden_size": 2048,
+              "residual_rms": 0.9101607819189426,
+              "threshold_sensitivity": [
+                {
+                  "threshold": 0.001,
+                  "near_zero_ratio": 0.00113677978515625,
+                  "active_ratio": 0.9988632202148438
+                },
+                {
+                  "threshold": 0.01,
+                  "near_zero_ratio": 0.011661529541015625,
+                  "active_ratio": 0.9883384704589844
+                },
+                {
+                  "threshold": 0.1,
+                  "near_zero_ratio": 0.11606502532958984,
+                  "active_ratio": 0.8839349746704102
+                }
+              ],
+              "top_10pct_energy": 0.6339338434941362,
+              "topk_energy_curve": [
+                {
+                  "fraction": 0.01,
+                  "k": 21,
+                  "energy": 0.34496739012899763
+                },
+                {
+                  "fraction": 0.05,
+                  "k": 103,
+                  "energy": 0.5204981699586687
+                },
+                {
+                  "fraction": 0.1,
+                  "k": 205,
+                  "energy": 0.6339338434941362
+                },
+                {
+                  "fraction": 0.25,
+                  "k": 512,
+                  "energy": 0.8234468743540697
+                },
+                {
+                  "fraction": 0.5,
+                  "k": 1024,
+                  "energy": 0.9550143069848762
+                },
+                {
+                  "fraction": 1.0,
+                  "k": 2048,
+                  "energy": 1.000000000000004
+                }
+              ]
+            },
+            {
+              "loop": 2,
+              "layer": 5,
+              "branch": "attention",
+              "tokens": 512,
+              "hidden_size": 2048,
+              "residual_rms": 0.35446675311368453,
+              "threshold_sensitivity": [
+                {
+                  "threshold": 0.001,
+                  "near_zero_ratio": 0.0038928985595703125,
+                  "active_ratio": 0.9961071014404297
+                },
+                {
+                  "threshold": 0.01,
+                  "near_zero_ratio": 0.031111717224121094,
+                  "active_ratio": 0.9688882827758789
+                },
+                {
+                  "threshold": 0.1,
+                  "near_zero_ratio": 0.2879209518432617,
+                  "active_ratio": 0.7120790481567383
+                }
+              ],
+              "top_10pct_energy": 0.4740019906926727,
+              "topk_energy_curve": [
+                {
+                  "fraction": 0.01,
+                  "k": 21,
+                  "energy": 0.11928971959306792
+                },
+                {
+                  "fraction": 0.05,
+                  "k": 103,
+                  "energy": 0.31717164093106703
+                },
+                {
+                  "fraction": 0.1,
+                  "k": 205,
+                  "energy": 0.4740019906926727
+                },
+                {
+                  "fraction": 0.25,
+                  "k": 512,
+                  "energy": 0.7456447469170436
+                },
+                {
+                  "fraction": 0.5,
+                  "k": 1024,
+                  "energy": 0.9357080937448596
+                },
+                {
+                  "fraction": 1.0,
+                  "k": 2048,
+                  "energy": 0.9999999999999956
+                }
+              ]
+            },
+            {
+              "loop": 2,
+              "layer": 5,
+              "branch": "ffn",
+              "tokens": 512,
+              "hidden_size": 2048,
+              "residual_rms": 2.300457274289144,
+              "threshold_sensitivity": [
+                {
+                  "threshold": 0.001,
+                  "near_zero_ratio": 0.0005893707275390625,
+                  "active_ratio": 0.9994106292724609
+                },
+                {
+                  "threshold": 0.01,
+                  "near_zero_ratio": 0.005982398986816406,
+                  "active_ratio": 0.9940176010131836
+                },
+                {
+                  "threshold": 0.1,
+                  "near_zero_ratio": 0.05755615234375,
+                  "active_ratio": 0.94244384765625
+                }
+              ],
+              "top_10pct_energy": 0.7223689954518961,
+              "topk_energy_curve": [
+                {
+                  "fraction": 0.01,
+                  "k": 21,
+                  "energy": 0.45993636798602955
+                },
+                {
+                  "fraction": 0.05,
+                  "k": 103,
+                  "energy": 0.6319108839177707
+                },
+                {
+                  "fraction": 0.1,
+                  "k": 205,
+                  "energy": 0.7223689954518961
+                },
+                {
+                  "fraction": 0.25,
+                  "k": 512,
+                  "energy": 0.8677610877200215
+                },
+                {
+                  "fraction": 0.5,
+                  "k": 1024,
+                  "energy": 0.9665967130943683
+                },
+                {
+                  "fraction": 1.0,
+                  "k": 2048,
+                  "energy": 1.000000000000004
+                }
+              ]
+            }
+          ]
+        },
+        "evaluation_scope": "all_complete_validation_chunks",
+        "trailing_prediction_tokens_excluded": 0
+      }
+    }
+  ]
+}

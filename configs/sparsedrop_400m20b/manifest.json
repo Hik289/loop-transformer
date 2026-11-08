@@ -1,0 +1,182 @@
+[
+  {
+    "index": 0,
+    "run": 1,
+    "name": "m404m_h2_ffn_p0.10_s42",
+    "config": "configs/sparsedrop_400m20b/000_m404m_h2_ffn_p0.10_s42.json",
+    "host": "h200",
+    "loops": 2,
+    "mode": "ffn",
+    "seed": 42
+  },
+  {
+    "index": 1,
+    "run": 2,
+    "name": "m404m_h2_attention_p0.10_s42",
+    "config": "configs/sparsedrop_400m20b/001_m404m_h2_attention_p0.10_s42.json",
+    "host": "h100",
+    "loops": 2,
+    "mode": "attention",
+    "seed": 42
+  },
+  {
+    "index": 2,
+    "run": 3,
+    "name": "m404m_h2_both_p0.10_s42",
+    "config": "configs/sparsedrop_400m20b/002_m404m_h2_both_p0.10_s42.json",
+    "host": "h200",
+    "loops": 2,
+    "mode": "both",
+    "seed": 42
+  },
+  {
+    "index": 3,
+    "run": 4,
+    "name": "m404m_h4_ffn_p0.10_s42",
+    "config": "configs/sparsedrop_400m20b/003_m404m_h4_ffn_p0.10_s42.json",
+    "host": "h100",
+    "loops": 4,
+    "mode": "ffn",
+    "seed": 42
+  },
+  {
+    "index": 4,
+    "run": 5,
+    "name": "m404m_h4_attention_p0.10_s42",
+    "config": "configs/sparsedrop_400m20b/004_m404m_h4_attention_p0.10_s42.json",
+    "host": "h100",
+    "loops": 4,
+    "mode": "attention",
+    "seed": 42
+  },
+  {
+    "index": 5,
+    "run": 6,
+    "name": "m404m_h4_both_p0.10_s42",
+    "config": "configs/sparsedrop_400m20b/005_m404m_h4_both_p0.10_s42.json",
+    "host": "h100",
+    "loops": 4,
+    "mode": "both",
+    "seed": 42
+  },
+  {
+    "index": 6,
+    "run": 7,
+    "name": "m404m_h6_ffn_p0.10_s42",
+    "config": "configs/sparsedrop_400m20b/006_m404m_h6_ffn_p0.10_s42.json",
+    "host": "h100",
+    "loops": 6,
+    "mode": "ffn",
+    "seed": 42
+  },
+  {
+    "index": 7,
+    "run": 8,
+    "name": "m404m_h6_attention_p0.10_s42",
+    "config": "configs/sparsedrop_400m20b/007_m404m_h6_attention_p0.10_s42.json",
+    "host": "h100",
+    "loops": 6,
+    "mode": "attention",
+    "seed": 42
+  },
+  {
+    "index": 8,
+    "run": 9,
+    "name": "m404m_h6_both_p0.10_s42",
+    "config": "configs/sparsedrop_400m20b/008_m404m_h6_both_p0.10_s42.json",
+    "host": "h100",
+    "loops": 6,
+    "mode": "both",
+    "seed": 42
+  },
+  {
+    "index": 9,
+    "run": 10,
+    "name": "m404m_h8_ffn_p0.10_s42",
+    "config": "configs/sparsedrop_400m20b/009_m404m_h8_ffn_p0.10_s42.json",
+    "host": "h100",
+    "loops": 8,
+    "mode": "ffn",
+    "seed": 42
+  },
+  {
+    "index": 10,
+    "run": 11,
+    "name": "m404m_h8_attention_p0.10_s42",
+    "config": "configs/sparsedrop_400m20b/010_m404m_h8_attention_p0.10_s42.json",
+    "host": "h100",
+    "loops": 8,
+    "mode": "attention",
+    "seed": 42
+  },
+  {
+    "index": 11,
+    "run": 12,
+    "name": "m404m_h8_both_p0.10_s42",
+    "config": "configs/sparsedrop_400m20b/011_m404m_h8_both_p0.10_s42.json",
+    "host": "h200",
+    "loops": 8,
+    "mode": "both",
+    "seed": 42
+  },
+  {
+    "index": 12,
+    "run": 13,
+    "name": "m404m_h10_ffn_p0.10_s42",
+    "config": "configs/sparsedrop_400m20b/012_m404m_h10_ffn_p0.10_s42.json",
+    "host": "h200",
+    "loops": 10,
+    "mode": "ffn",
+    "seed": 42
+  },
+  {
+    "index": 13,
+    "run": 14,
+    "name": "m404m_h10_attention_p0.10_s42",
+    "config": "configs/sparsedrop_400m20b/013_m404m_h10_attention_p0.10_s42.json",
+    "host": "h200",
+    "loops": 10,
+    "mode": "attention",
+    "seed": 42
+  },
+  {
+    "index": 14,
+    "run": 15,
+    "name": "m404m_h10_both_p0.10_s42",
+    "config": "configs/sparsedrop_400m20b/014_m404m_h10_both_p0.10_s42.json",
+    "host": "h200",
+    "loops": 10,
+    "mode": "both",
+    "seed": 42
+  },
+  {
+    "index": 15,
+    "run": 16,
+    "name": "m404m_h12_ffn_p0.10_s42",
+    "config": "configs/sparsedrop_400m20b/015_m404m_h12_ffn_p0.10_s42.json",
+    "host": "h200",
+    "loops": 12,
+    "mode": "ffn",
+    "seed": 42
+  },
+  {
+    "index": 16,
+    "run": 17,
+    "name": "m404m_h12_attention_p0.10_s42",
+    "config": "configs/sparsedrop_400m20b/016_m404m_h12_attention_p0.10_s42.json",
+    "host": "h200",
+    "loops": 12,
+    "mode": "attention",
+    "seed": 42
+  },
+  {
+    "index": 17,
+    "run": 18,
+    "name": "m404m_h12_both_p0.10_s42",
+    "config": "configs/sparsedrop_400m20b/017_m404m_h12_both_p0.10_s42.json",
+    "host": "h200",
+    "loops": 12,
+    "mode": "both",
+    "seed": 42
+  }
+]

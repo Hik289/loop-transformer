@@ -1,0 +1,20 @@
+name: Core tests
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install torch --index-url https://download.pytorch.org/whl/cpu
+      - run: pip install -e ".[data,plots,dev]"
+      - name: Test SparseLoop and data preparation
+        env:
+          OMP_NUM_THREADS: '2'
+          MKL_NUM_THREADS: '2'
+        run: >-
+          python -m pytest tests/test_sparsedrop*.py
+          tests/test_fineweb_data.py tests/test_cross_cluster_stage_gate.py -q
+      - run: python scripts/smoke_test.py

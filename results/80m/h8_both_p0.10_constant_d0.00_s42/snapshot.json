@@ -1,0 +1,8 @@
+{
+  "artifact": "fixed_validation_at_100k",
+  "steps": 100000,
+  "training_tokens_B": 1.6384,
+  "validation_chunks": 128,
+  "validation_tokens": 65536,
+  "seed": 42
+}

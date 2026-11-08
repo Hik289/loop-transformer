@@ -1,0 +1,359 @@
+#!/usr/bin/env python
+"""Entry point for LoopLM pre-training (Stage I).
+
+Quick test run:
+    uv run scripts/train.py --max-steps 1000 --batch-size 4 --seq-len 512
+
+Full small-scale run (~100M, wikitext-103):
+    uv run scripts/train.py --max-steps 10000 --batch-size 8 --seq-len 1024
+"""
+
+import argparse
+import sys
+from pathlib import Path
+from collections import defaultdict
+
+import torch
+
+# Allow running from repo root without installing
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+from src.model.config import LoopLMConfig
+from src.training.trainer import (
+    Trainer,
+    TrainerConfig,
+    make_stage_1a,
+    make_stage_1b,
+    make_stage_2,
+)
+from src.training.data import make_dataloader
+
+
+def parse_args():
+    p = argparse.ArgumentParser(description="Train a LoopLM model")
+
+    # Model
+    p.add_argument("--model-config", default="small",
+                   choices=["small", "ouro_1_4b", "ouro_2_6b"])
+    # Model config overrides (applied after loading preset)
+    p.add_argument("--hidden-size", type=int, default=None)
+    p.add_argument("--num-layers", type=int, default=None)
+    p.add_argument("--num-heads", type=int, default=None)
+    p.add_argument("--intermediate-size", type=int, default=None)
+    # Ablation flags
+    p.add_argument("--use-q-act", action="store_true")
+    p.add_argument("--q-weight", type=float, default=0.1)
+    p.add_argument("--q-gamma", type=float, default=0.99)
+
+    # Data
+    p.add_argument("--dataset", default="wikitext")
+    p.add_argument("--dataset-config", default="wikitext-103-v1")
+    p.add_argument("--split", default="train")
+    p.add_argument("--tokenizer-id", default="HuggingFaceTB/SmolLM2-135M")
+    p.add_argument("--max-chunks", type=int, default=None,
+                   help="Cap number of training chunks (for quick runs)")
+    p.add_argument("--data-dir", default=None,
+                   help="Path to pre-tokenized .npy shards (overrides --dataset)")
+
+    # Training
+    p.add_argument("--max-steps", type=int, default=1000)
+    p.add_argument("--batch-size", type=int, default=4,
+                   help="Micro-batch size (sequences per GPU forward pass)")
+    p.add_argument("--seq-len", type=int, default=512)
+    p.add_argument("--lr", type=float, default=3e-4)
+    p.add_argument("--beta-kl", type=float, default=0.1)
+    p.add_argument("--num-recurrent-steps", type=int, default=None)
+    p.add_argument("--grad-accum-steps", type=int, default=1,
+                   help="Gradient accumulation steps")
+    p.add_argument("--no-amp", action="store_true",
+                   help="Disable bf16 mixed precision")
+    p.add_argument("--gradient-checkpointing", action="store_true",
+                   help="Enable gradient checkpointing to reduce memory")
+    p.add_argument("--device", default="auto")
+    p.add_argument("--resume-from", default=None,
+                   help="Path to checkpoint to resume training from")
+
+    # Multi-stage training (0 = skip that stage)
+    p.add_argument("--stage1a-steps", type=int, default=0,
+                   help="Steps for Stage 1a (T=8, constant LR 3e-4, β=0.1). 0=skip.")
+    p.add_argument("--stage1b-steps", type=int, default=0,
+                   help="Steps for Stage 1b (T=4, constant LR 3e-4, β=0.1). 0=skip.")
+    p.add_argument("--stage2-steps", type=int, default=0,
+                   help="Steps for Stage 2 (T=4, cosine LR 3e-5, β=0.05, rope 40K). 0=skip.")
+
+    # Logging & checkpointing
+    p.add_argument("--log-every", type=int, default=50)
+    p.add_argument("--save-every", type=int, default=500)
+    p.add_argument("--output-dir", default="runs/train")
+    p.add_argument("--use-wandb", action="store_true")
+    p.add_argument("--wandb-project", default="looplm")
+    p.add_argument("--run-name", default=None)
+
+    # Periodic evaluation
+    p.add_argument("--eval-every", type=int, default=0,
+                   help="Evaluate every N steps (0 = disabled).")
+    p.add_argument("--eval-tasks", default="",
+                   help="Comma-separated lm-eval task names for periodic eval.")
+    p.add_argument("--eval-limit", type=int, default=None,
+                   help="Max examples per task during periodic eval (default: full).")
+
+    return p.parse_args()
+
+
+def build_model_config(args) -> LoopLMConfig:
+    configs = {
+        "small": LoopLMConfig.small(),
+        "ouro_1_4b": LoopLMConfig.ouro_1_4b(),
+        "ouro_2_6b": LoopLMConfig.ouro_2_6b(),
+    }
+    cfg = configs[args.model_config]
+    cfg.max_seq_len = args.seq_len
+    # Apply overrides
+    if args.hidden_size is not None:
+        cfg.hidden_size = args.hidden_size
+    if args.num_layers is not None:
+        cfg.num_layers = args.num_layers
+    if args.num_heads is not None:
+        cfg.num_heads = args.num_heads
+    if args.intermediate_size is not None:
+        cfg.intermediate_size = args.intermediate_size
+    if args.num_recurrent_steps is not None:
+        cfg.max_recurrent_steps = args.num_recurrent_steps
+    return cfg
+
+
+def print_summary(history: dict, num_recurrent_steps: int) -> None:
+    """Print a summary table comparing first vs last 10% of training."""
+    total = len(history["loss"])
+    window = max(1, total // 10)
+
+    first = {k: v[:window] for k, v in history.items() if k != "per_step_losses"}
+    last  = {k: v[-window:] for k, v in history.items() if k != "per_step_losses"}
+
+    def mean(lst):
+        return sum(lst) / len(lst) if lst else float("nan")
+
+    print("\n" + "=" * 60)
+    print(f"{'TRAINING SUMMARY':^60}")
+    print(f"{'(first ' + str(window) + ' steps vs last ' + str(window) + ' steps)':^60}")
+    print("=" * 60)
+    print(f"{'Metric':<25} {'First':>10} {'Last':>10} {'Δ':>10}")
+    print("-" * 60)
+    for key in ("loss", "task_loss", "entropy", "avg_exit_step"):
+        if key in history:
+            f = mean(first[key])
+            l = mean(last[key])
+            print(f"  {key:<23} {f:>10.4f} {l:>10.4f} {l-f:>+10.4f}")
+    print("-" * 60)
+
+    # Per-step loss table
+    first_step_losses = history["per_step_losses"][:window]
+    last_step_losses  = history["per_step_losses"][-window:]
+    if first_step_losses:
+        print(f"\n  Per-recurrent-step losses:")
+        print(f"  {'Step':<8} {'First':>10} {'Last':>10} {'Δ':>10}")
+        print(f"  {'-'*42}")
+        n = num_recurrent_steps
+        for t in range(n):
+            f_vals = [row[t].item() for row in first_step_losses if len(row) > t]
+            l_vals = [row[t].item() for row in last_step_losses  if len(row) > t]
+            f, l = mean(f_vals), mean(l_vals)
+            print(f"  t={t+1:<6} {f:>10.4f} {l:>10.4f} {l-f:>+10.4f}")
+
+    print("=" * 60)
+
+    # Verification checks
+    print("\nVerification:")
+    checks = {
+        "Total loss decreased": mean(last["loss"]) < mean(first["loss"]),
+        "Task loss decreased":  mean(last["task_loss"]) < mean(first["task_loss"]),
+        "Entropy not collapsed (> 0.1)": mean(last["entropy"]) > 0.1,
+    }
+    # Check later steps have lower loss than earlier steps
+    if history["per_step_losses"]:
+        recent = history["per_step_losses"][-window:]
+        t1_vals = [row[0].item() for row in recent if len(row) > 0]
+        tn_vals = [row[-1].item() for row in recent]
+        checks[f"Step t={num_recurrent_steps} loss < step t=1 loss"] = (
+            mean(tn_vals) < mean(t1_vals)
+        )
+
+    all_passed = True
+    for desc, passed in checks.items():
+        status = "✓" if passed else "✗"
+        print(f"  [{status}] {desc}")
+        if not passed:
+            all_passed = False
+
+    print()
+    if all_passed:
+        print("All checks passed.")
+    else:
+        print("Some checks failed — review training dynamics.")
+    print()
+
+
+def main():
+    args = parse_args()
+
+    # ── Distributed training setup ────────────────────────────────────────────
+    import os
+    import torch.distributed as dist
+
+    distributed = "RANK" in os.environ  # Set by torchrun
+    rank = 0
+    world_size = 1
+    if distributed:
+        dist.init_process_group(backend="nccl")
+        rank = dist.get_rank()
+        world_size = dist.get_world_size()
+
+    model_cfg = build_model_config(args)
+    eval_tasks = [t.strip() for t in args.eval_tasks.split(",") if t.strip()]
+
+    # Build multi-stage list (each non-zero step value enables that stage)
+    stages = []
+    if args.stage1a_steps > 0:
+        stages.append(make_stage_1a(args.stage1a_steps))
+    if args.stage1b_steps > 0:
+        stages.append(make_stage_1b(args.stage1b_steps))
+    if args.stage2_steps > 0:
+        stages.append(make_stage_2(args.stage2_steps))
+
+    # When stages are provided, max_steps is ignored (total = sum of stage steps)
+    effective_max_steps = args.max_steps if not stages else sum(s.max_steps for s in stages)
+
+    trainer_cfg = TrainerConfig(
+        lr=args.lr,
+        max_steps=effective_max_steps,
+        beta_kl=args.beta_kl,
+        num_recurrent_steps=args.num_recurrent_steps,
+        grad_accum_steps=args.grad_accum_steps,
+        use_amp=not args.no_amp,
+        stages=stages,
+        log_every=args.log_every,
+        save_every=args.save_every,
+        checkpoint_dir=str(Path(args.output_dir) / "checkpoints"),
+        use_wandb=args.use_wandb,
+        wandb_project=args.wandb_project,
+        wandb_run_name=args.run_name,
+        device=args.device,
+        eval_every=args.eval_every,
+        eval_tasks=eval_tasks,
+        eval_limit=args.eval_limit,
+        tokenizer_id=args.tokenizer_id,
+        q_weight=args.q_weight,
+        q_gamma=args.q_gamma,
+    )
+
+    # Model kwargs for ablation flags
+    model_kwargs = {}
+    if args.use_q_act:
+        model_kwargs["use_q_act"] = True
+
+    n_params = model_cfg.num_parameters()
+    eff_batch_tokens = args.batch_size * args.grad_accum_steps * args.seq_len * world_size
+    if rank == 0:
+        overrides = []
+        if args.hidden_size: overrides.append(f"h={args.hidden_size}")
+        if args.num_layers: overrides.append(f"L={args.num_layers}")
+        if args.num_recurrent_steps: overrides.append(f"T={args.num_recurrent_steps}")
+        if args.use_q_act: overrides.append("Q-ACT")
+        override_str = f" [{', '.join(overrides)}]" if overrides else ""
+        print(f"Model: {args.model_config}{override_str}  ({n_params/1e6:.1f}M params)")
+        if distributed:
+            print(f"Distributed: {world_size} GPUs (DDP)")
+        if stages:
+            stages_desc = " → ".join(f"{s.name}({s.max_steps})" for s in stages)
+            print(f"Device: {trainer_cfg.device}  |  Stages: {stages_desc}  "
+                  f"|  MicroBatch: {args.batch_size}  |  SeqLen: {args.seq_len}")
+        else:
+            print(f"Device: {trainer_cfg.device}  |  Steps: {args.max_steps}  "
+                  f"|  MicroBatch: {args.batch_size}  |  SeqLen: {args.seq_len}")
+        print(f"GradAccum: {args.grad_accum_steps}  |  "
+              f"EffBatch: {eff_batch_tokens/1e6:.1f}M tokens  |  "
+              f"AMP: {trainer_cfg.use_amp}")
+        print()
+
+    if rank == 0:
+        print("Loading dataset...")
+    if args.data_dir:
+        from src.training.data import make_pretokenized_dataloader
+        dataloader = make_pretokenized_dataloader(
+            data_dir=args.data_dir,
+            seq_len=args.seq_len,
+            micro_batch_size=args.batch_size,
+        )
+    else:
+        dataloader = make_dataloader(
+            dataset_name=args.dataset,
+            dataset_config=args.dataset_config,
+            split=args.split,
+            tokenizer_id=args.tokenizer_id,
+            seq_len=args.seq_len,
+            batch_size=args.batch_size,
+            max_chunks=args.max_chunks,
+        )
+
+    trainer = Trainer(model_cfg, trainer_cfg, model_kwargs=model_kwargs)
+    num_steps = args.num_recurrent_steps or model_cfg.max_recurrent_steps
+
+    if args.gradient_checkpointing:
+        trainer.raw_model.gradient_checkpointing = True
+        if rank == 0:
+            print("Gradient checkpointing: enabled")
+
+    # Resume from checkpoint if specified
+    if args.resume_from:
+        resumed_step = trainer.load_checkpoint(args.resume_from)
+        if rank == 0:
+            print(f"Resumed from step {resumed_step}")
+
+    # ── Training loop with metric collection ──────────────────────────────────
+    history: dict[str, list] = defaultdict(list)
+
+    from src.training.trainer import _infinite
+    data_iter = _infinite(dataloader)
+
+    if rank == 0:
+        print(f"\nStarting training for {trainer_cfg.max_steps} steps...\n")
+
+    while trainer.step < trainer_cfg.max_steps:
+        batch = next(data_iter)
+        diag = trainer.train_step(batch)
+
+        if not diag.get("_stepped", True):
+            continue  # still accumulating gradients
+
+        if rank == 0:
+            history["loss"].append(diag["loss"].item())
+            history["task_loss"].append(diag["task_loss"].item())
+            history["entropy"].append(diag["entropy"].item())
+            history["avg_exit_step"].append(diag["avg_exit_step"].item())
+            history["per_step_losses"].append(diag["per_step_losses"])
+
+        if trainer.step % args.log_every == 0:
+            trainer._log(diag)
+
+        if trainer.step % args.save_every == 0:
+            path = trainer.save_checkpoint()
+            if rank == 0:
+                print(f"  → Checkpoint saved: {path}")
+
+        if args.eval_every > 0 and trainer.step % args.eval_every == 0:
+            eval_results = trainer.eval_checkpoint()
+            if eval_results and rank == 0:
+                print(f"  → Eval at step {trainer.step}: {eval_results}")
+
+    # Final checkpoint
+    path = trainer.save_checkpoint()
+    if rank == 0:
+        print(f"  → Final checkpoint: {path}")
+        print_summary(history, num_steps)
+
+    if distributed:
+        dist.destroy_process_group()
+
+
+if __name__ == "__main__":
+    main()

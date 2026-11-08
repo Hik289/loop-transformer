@@ -1,0 +1,21 @@
+{
+  "loops": 8,
+  "mode": "ffn",
+  "p": 0.05,
+  "schedule": "constant",
+  "delta": 0.0,
+  "seed": 42,
+  "data_dir": "data/fineweb_edu20b",
+  "output_dir": "results_fineweb20b/h8_ffn_p0.05_constant_d0.00_s42",
+  "max_steps": 1220704,
+  "batch_size": 32,
+  "grad_accum": 1,
+  "seq_len": 512,
+  "gradient_checkpointing": false,
+  "token_budget": 20000000000,
+  "warmup_steps": 2000,
+  "eval_every": 5000,
+  "checkpoint_every": 5000,
+  "log_every": 100,
+  "stop_after_steps": 100000
+}

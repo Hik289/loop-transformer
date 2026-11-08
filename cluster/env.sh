@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# Keep data and caches inside an explicit project directory.
+export SPARSEDROP_ROOT="${SPARSEDROP_ROOT:-$PWD}"
+export PATH="$SPARSEDROP_ROOT/.venv/bin:$SPARSEDROP_ROOT/venv/bin:$PATH"
+export PYTHONNOUSERSITE=1
+export PYTHONPATH="$SPARSEDROP_ROOT${PYTHONPATH:+:$PYTHONPATH}"
+export HF_HOME="$SPARSEDROP_ROOT/cache/huggingface"
+export HF_DATASETS_CACHE="$HF_HOME/datasets"
+export XDG_CACHE_HOME="$SPARSEDROP_ROOT/cache"
+export TORCH_HOME="$SPARSEDROP_ROOT/cache/torch"
+export TRITON_CACHE_DIR="$SPARSEDROP_ROOT/cache/triton"
+export CUDA_CACHE_PATH="$SPARSEDROP_ROOT/cache/cuda"
+export MPLCONFIGDIR="$SPARSEDROP_ROOT/cache/matplotlib"
+export TMPDIR="$SPARSEDROP_ROOT/tmp"
+export PIP_CACHE_DIR="$SPARSEDROP_ROOT/cache/pip"
+export WANDB_MODE=disabled
+export HF_HUB_DISABLE_TELEMETRY=1
+export TOKENIZERS_PARALLELISM=false
+export OMP_NUM_THREADS="${SLURM_CPUS_PER_TASK:-2}"
+mkdir -p "$HF_HOME" "$HF_DATASETS_CACHE" "$TORCH_HOME" "$TRITON_CACHE_DIR" "$CUDA_CACHE_PATH" "$MPLCONFIGDIR" "$TMPDIR" "$PIP_CACHE_DIR" "$SPARSEDROP_ROOT/logs" "$SPARSEDROP_ROOT/provenance"

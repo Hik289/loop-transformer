@@ -1,0 +1,128 @@
+[
+  {
+    "index": 5,
+    "name": "h1_attention_p0.05_constant_d0.00_s42",
+    "config": "configs/sparsedrop_long/005_h1_attention_p0.05_constant_d0.00_s42.json",
+    "seed": 42
+  },
+  {
+    "index": 7,
+    "name": "h1_ffn_p0.05_constant_d0.00_s42",
+    "config": "configs/sparsedrop_long/007_h1_ffn_p0.05_constant_d0.00_s42.json",
+    "seed": 42
+  },
+  {
+    "index": 11,
+    "name": "h1_attention_p0.20_constant_d0.00_s42",
+    "config": "configs/sparsedrop_long/011_h1_attention_p0.20_constant_d0.00_s42.json",
+    "seed": 42
+  },
+  {
+    "index": 13,
+    "name": "h1_ffn_p0.20_constant_d0.00_s42",
+    "config": "configs/sparsedrop_long/013_h1_ffn_p0.20_constant_d0.00_s42.json",
+    "seed": 42
+  },
+  {
+    "index": 16,
+    "name": "h2_both_p0.05_constant_d0.00_s42",
+    "config": "configs/sparsedrop_long/016_h2_both_p0.05_constant_d0.00_s42.json",
+    "seed": 42
+  },
+  {
+    "index": 17,
+    "name": "h2_ffn_p0.05_constant_d0.00_s42",
+    "config": "configs/sparsedrop_long/017_h2_ffn_p0.05_constant_d0.00_s42.json",
+    "seed": 42
+  },
+  {
+    "index": 22,
+    "name": "h2_both_p0.20_constant_d0.00_s42",
+    "config": "configs/sparsedrop_long/022_h2_both_p0.20_constant_d0.00_s42.json",
+    "seed": 42
+  },
+  {
+    "index": 23,
+    "name": "h2_ffn_p0.20_constant_d0.00_s42",
+    "config": "configs/sparsedrop_long/023_h2_ffn_p0.20_constant_d0.00_s42.json",
+    "seed": 42
+  },
+  {
+    "index": 31,
+    "name": "h8_attention_p0.05_constant_d0.00_s42",
+    "config": "configs/sparsedrop_long/031_h8_attention_p0.05_constant_d0.00_s42.json",
+    "seed": 42
+  },
+  {
+    "index": 32,
+    "name": "h8_both_p0.05_constant_d0.00_s42",
+    "config": "configs/sparsedrop_long/032_h8_both_p0.05_constant_d0.00_s42.json",
+    "seed": 42
+  },
+  {
+    "index": 35,
+    "name": "h8_attention_p0.10_decreasing_d0.05_s42",
+    "config": "configs/sparsedrop_long/035_h8_attention_p0.10_decreasing_d0.05_s42.json",
+    "seed": 42
+  },
+  {
+    "index": 36,
+    "name": "h8_attention_p0.10_decreasing_d0.10_s42",
+    "config": "configs/sparsedrop_long/036_h8_attention_p0.10_decreasing_d0.10_s42.json",
+    "seed": 42
+  },
+  {
+    "index": 38,
+    "name": "h8_attention_p0.10_increasing_d0.10_s42",
+    "config": "configs/sparsedrop_long/038_h8_attention_p0.10_increasing_d0.10_s42.json",
+    "seed": 42
+  },
+  {
+    "index": 40,
+    "name": "h8_both_p0.10_decreasing_d0.05_s42",
+    "config": "configs/sparsedrop_long/040_h8_both_p0.10_decreasing_d0.05_s42.json",
+    "seed": 42
+  },
+  {
+    "index": 42,
+    "name": "h8_both_p0.10_increasing_d0.05_s42",
+    "config": "configs/sparsedrop_long/042_h8_both_p0.10_increasing_d0.05_s42.json",
+    "seed": 42
+  },
+  {
+    "index": 43,
+    "name": "h8_both_p0.10_increasing_d0.10_s42",
+    "config": "configs/sparsedrop_long/043_h8_both_p0.10_increasing_d0.10_s42.json",
+    "seed": 42
+  },
+  {
+    "index": 45,
+    "name": "h8_ffn_p0.10_decreasing_d0.05_s42",
+    "config": "configs/sparsedrop_long/045_h8_ffn_p0.10_decreasing_d0.05_s42.json",
+    "seed": 42
+  },
+  {
+    "index": 46,
+    "name": "h8_ffn_p0.10_decreasing_d0.10_s42",
+    "config": "configs/sparsedrop_long/046_h8_ffn_p0.10_decreasing_d0.10_s42.json",
+    "seed": 42
+  },
+  {
+    "index": 48,
+    "name": "h8_ffn_p0.10_increasing_d0.10_s42",
+    "config": "configs/sparsedrop_long/048_h8_ffn_p0.10_increasing_d0.10_s42.json",
+    "seed": 42
+  },
+  {
+    "index": 49,
+    "name": "h8_attention_p0.20_constant_d0.00_s42",
+    "config": "configs/sparsedrop_long/049_h8_attention_p0.20_constant_d0.00_s42.json",
+    "seed": 42
+  },
+  {
+    "index": 50,
+    "name": "h8_both_p0.20_constant_d0.00_s42",
+    "config": "configs/sparsedrop_long/050_h8_both_p0.20_constant_d0.00_s42.json",
+    "seed": 42
+  }
+]

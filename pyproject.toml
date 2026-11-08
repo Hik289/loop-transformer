@@ -1,0 +1,23 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "loop-transformer"
+version = "0.1.0"
+description = "Residual dropout experiments in shared-weight looped language models"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = ["torch>=2.4", "numpy>=1.24", "pyyaml>=6"]
+
+[project.optional-dependencies]
+data = ["transformers>=4.44", "datasets>=2.20", "huggingface-hub>=0.24", "pyarrow>=16"]
+plots = ["matplotlib>=3.7"]
+dev = ["pytest>=8"]
+legacy = ["transformers>=4.44", "datasets>=2.20", "wandb>=0.17", "lm-eval>=0.4"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "Please cite this repository if you use the code or recorded measurements."
+title: "Loop Transformer: Dropout in Shared-Weight Language Models"
+type: software
+version: 0.1.0
+date-released: 2026-11-07
+authors:
+  - name: "Hik289"
+repository-code: "https://github.com/Hik289/loop-transformer"
+url: "https://github.com/Hik289/loop-transformer"
