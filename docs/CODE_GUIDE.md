@@ -14,7 +14,8 @@
 | Validate and export final layer records | `src/training/sparsedrop_export.py`, `scripts/export_sparsedrop_sparsity.py` |
 | Aggregate or compare training outputs | `scripts/aggregate_sparsedrop.py`, `scripts/report_sparsedrop_100k.py`, `scripts/analyze_sparsedrop_final.py` |
 | Layer and loop figures | `scripts/plot_sparsedrop_layer_profiles.py`, `scripts/plot_sparsedrop_additional_profiles.py` |
-| Main figure | `scripts/plot_overview.py` |
+| Recorded-results overview | `scripts/plot_overview.py` → `figures/overview_results/` |
+| Main method illustration | `assets/overview.png` |
 | GPU budget and model checks | `scripts/long_training_gpu_preflight.py`, `scripts/preflight_sparsedrop_400m.py` |
 | Batch-size benchmarks | `scripts/benchmark_sparsedrop_400m_batch.py` |
 | Completed checkpoint compaction | `scripts/compact_sparsedrop_400m_checkpoints.py` |

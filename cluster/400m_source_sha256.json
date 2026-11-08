@@ -65,7 +65,7 @@
   "scripts/mano_debug_online.slurm": "6c0020254b93ab8989c3c2668175c5b6aa578a1e3dbc56366dead1bf126e1879",
   "scripts/mano_debug_ops3.slurm": "7f4040da92bee16a54fde2e80176cc745a8fe796dda9b31c32b7ec4373528695",
   "scripts/mano_small.slurm": "61963ee9828724a9cee9a880e67d45c654e61249152ff950da211401014b8fa6",
-  "scripts/plot_overview.py": "86e83b4d04cab0e15b4351f59f376de1cdef5417d95ede8b05d23ac2ba6db096",
+  "scripts/plot_overview.py": "58999fb089bb9544d9dd402e24be94ed8b2397bc89a59ad52249ac40303b9a7b",
   "scripts/plot_sparsedrop_additional_profiles.py": "32143bbee293e42bc6fc8cddf18930f3e91e14336feb7ad115c2287dbe3cc8e7",
   "scripts/plot_sparsedrop_layer_profiles.py": "5ced807ff954a063cf88a24d1f081b11405a9176258c8d50e2e19581a55b3143",
   "scripts/plot_sparsedrop_progress.py": "712681b7a33f0de7746ce37a56fb654f51f69b493b067b5e1399ced53d8ab6cf",

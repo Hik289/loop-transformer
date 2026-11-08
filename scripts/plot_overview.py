@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Draw the repository overview using the released 100k evaluation records."""
+"""Draw a results overview using the released 100k evaluation records."""
 from pathlib import Path
 import json
 import numpy as np
@@ -67,9 +67,9 @@ def main():
     fig.text(.045,.053,'RECORDED RESULTS',fontsize=9.5,color=C['blue'],weight='bold')
     fig.text(.18,.053,'80M parameters  |  100,000 steps  |  1.6384B training tokens  |  seed 42',fontsize=10.5,color=C['muted'])
     fig.text(.045,.023,'Near-zero threshold: 0.01. Diagnostics use 512 fixed tokens with dropout off. Curves show measurements, not skipped computation.',fontsize=9.5,color=C['muted'])
-    out=ROOT/'assets';out.mkdir(exist_ok=True)
+    out=ROOT/'figures/overview_results';out.mkdir(parents=True,exist_ok=True)
     for ext in ['png','svg','pdf']:fig.savefig(out/f'overview.{ext}',dpi=170,facecolor=fig.get_facecolor())
     plt.close(fig)
-    print('Saved assets/overview.png, .svg, and .pdf')
+    print('Saved figures/overview_results/overview.png, .svg, and .pdf')
 
 if __name__=='__main__':main()
